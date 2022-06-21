@@ -4,11 +4,13 @@ import com.ilionx.cyclists.model.Cyclist;
 import com.ilionx.cyclists.persistence.CyclistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CyclistService {
 
     @Autowired
@@ -27,7 +29,10 @@ public class CyclistService {
     }
 
     public Cyclist save (Cyclist cyclist) {
-        return this.cyclistRepository.save(cyclist);
+        Cyclist newCyclist = this.cyclistRepository.save(cyclist);
+        int b = 0;
+//       int a = 3 /0;
+        return newCyclist;
     }
 
     public List<Cyclist> findAll() {
