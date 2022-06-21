@@ -39,7 +39,7 @@ public class CyclistController {
         }
     }
 
-    @PutMapping("{id")
+    @PutMapping("{id}")
     public ResponseEntity<Cyclist> updateCyclistById (@PathVariable Long id, @RequestBody Cyclist desiredCyclist) {
         Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
         if (optionalCyclist.isPresent()) {
