@@ -18,6 +18,9 @@ public class Cyclist {
 
     private int ranking;
 
+    public long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
