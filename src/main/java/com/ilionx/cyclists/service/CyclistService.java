@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional // deze gehele Service is Transactional. Kan prima. Maar kan ook per method worden gezet. findByTeam bijvoorbeeld moet dat @Transactional zijn?
 public class CyclistService {
 
     @Autowired
