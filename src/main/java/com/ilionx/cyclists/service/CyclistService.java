@@ -34,7 +34,9 @@ public class CyclistService {
 //       int a = 3 /0;
         return newCyclist;
     }
-
+    public List<Cyclist> findByRankingGreaterThan(int upperLimit) {
+        return this.cyclistRepository.findByRankingGreaterThan(upperLimit);
+    }
     public List<Cyclist> findAll() {
         return this.cyclistRepository.findAll();
     }

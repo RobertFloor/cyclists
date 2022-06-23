@@ -11,4 +11,5 @@ public interface CyclistRepository extends JpaRepository<Cyclist, Long> {
     List<Cyclist> findByName(String name);
     List<Cyclist> findByTeam(String team);
     List<Cyclist> findByRanking(int ranking);
+    public List<Cyclist> findByRankingGreaterThan(int upperLimit);
 }

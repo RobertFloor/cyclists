@@ -40,6 +40,18 @@ public class CyclistController {
         }
     }
 
+    @DeleteMapping ("{id}")
+    public ResponseEntity<Cyclist> deleteById (@PathVariable Long id) {
+        Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
+        if (optionalCyclist.isPresent()) {
+            this.cyclistService.deleteById(id);
+            return new ResponseEntity<>(optionalCyclist.get(), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<Cyclist> updateCyclistById (@PathVariable Long id, @RequestBody Cyclist desiredCyclist) {
         Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
@@ -55,5 +67,11 @@ public class CyclistController {
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/name/{name}")
+    public List<Cyclist> findByName (@PathVariable String name) {
+        return this.cyclistService.findByName(name);
+
     }
 }
