@@ -19,13 +19,14 @@ public class CyclistController {
     private CyclistService cyclistService;
 
     @GetMapping
-    public List<Cyclist> findAllCyclists() {
-        return this.cyclistService.findAll();
+    public ResponseEntity<List<Cyclist>> findAllCyclists() {
+        return ResponseEntity.ok(this.cyclistService.findAll());
     }
 
     @PostMapping
-    public Cyclist create(@RequestBody Cyclist cyclist) {
-        return cyclistService.save(cyclist);
+    public ResponseEntity<Cyclist> create(@RequestBody Cyclist cyclist) {
+        // eventueel ResponseEntity.created(...) maar dat behandelen we later evt.
+        return ResponseEntity.ok(cyclistService.save(cyclist));
     }
 
     @GetMapping("{id}")
@@ -43,6 +44,7 @@ public class CyclistController {
     public ResponseEntity<Cyclist> updateCyclistById (@PathVariable Long id, @RequestBody Cyclist desiredCyclist) {
         Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
         if (optionalCyclist.isPresent()) {
+            // later geleerd dat dit werk eigenlijk in de Service hoort.
             Cyclist target = optionalCyclist.get();
             target.setName(desiredCyclist.getName());
             target.setTeam(desiredCyclist.getTeam());
