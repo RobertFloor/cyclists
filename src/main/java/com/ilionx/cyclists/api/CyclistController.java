@@ -33,45 +33,33 @@ public class CyclistController {
     public ResponseEntity<Cyclist> findById (@PathVariable Long id) {
         Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
         if (optionalCyclist.isPresent()) {
-            return new ResponseEntity<>(optionalCyclist.get(), HttpStatus.OK);
+            return ResponseEntity.ok(optionalCyclist.get());
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping ("{id}")
     public ResponseEntity<Cyclist> deleteById (@PathVariable Long id) {
-        Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
-        if (optionalCyclist.isPresent()) {
-            this.cyclistService.deleteById(id);
-            return new ResponseEntity<>(optionalCyclist.get(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        this.cyclistService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Cyclist> updateCyclistById (@PathVariable Long id, @RequestBody Cyclist desiredCyclist) {
-        Optional<Cyclist> optionalCyclist = this.cyclistService.findById(id);
+        Optional<Cyclist> optionalCyclist = this.cyclistService.update(desiredCyclist, id);
         if (optionalCyclist.isPresent()) {
-            // later geleerd dat dit werk eigenlijk in de Service hoort.
-            Cyclist target = optionalCyclist.get();
-            target.setName(desiredCyclist.getName());
-            target.setTeam(desiredCyclist.getTeam());
-            target.setRanking(desiredCyclist.getRanking());
-
-            return new ResponseEntity<>(this.cyclistService.save(target), HttpStatus.OK);
+            return ResponseEntity.ok(optionalCyclist.get());
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/name/{name}")
-    public List<Cyclist> findByName (@PathVariable String name) {
-        return this.cyclistService.findByName(name);
+    public ResponseEntity<List<Cyclist>> findByName (@PathVariable String name) {
+        return ResponseEntity.ok(this.cyclistService.findByName(name));
 
     }
 }

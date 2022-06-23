@@ -4,13 +4,12 @@ import com.ilionx.cyclists.model.Cyclist;
 import com.ilionx.cyclists.persistence.CyclistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional // deze gehele Service is Transactional. Kan prima. Maar kan ook per method worden gezet. findByTeam bijvoorbeeld moet dat @Transactional zijn?
 public class CyclistService {
 
     @Autowired
@@ -28,12 +27,31 @@ public class CyclistService {
         return this.cyclistRepository.findByRanking(ranking);
     }
 
+    @Transactional
     public Cyclist save (Cyclist cyclist) {
         Cyclist newCyclist = this.cyclistRepository.save(cyclist);
         int b = 0;
 //       int a = 3 /0;
         return newCyclist;
     }
+
+    @Transactional
+    public Optional<Cyclist> update(Cyclist source, Long id) {
+        Optional<Cyclist> optionalCyclist = this.cyclistRepository.findById(id);
+        if (optionalCyclist.isPresent()) {
+            Cyclist target = optionalCyclist.get();
+            target.setName(source.getName());
+            target.setTeam(source.getTeam());
+            target.setRanking(source.getRanking());
+            return optionalCyclist;
+        }
+        else {
+            return Optional.empty();
+        }
+
+    }
+
+
     public List<Cyclist> findByRankingGreaterThan(int upperLimit) {
         return this.cyclistRepository.findByRankingGreaterThan(upperLimit);
     }
@@ -45,6 +63,7 @@ public class CyclistService {
         return this.cyclistRepository.findById(id);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         this.cyclistRepository.deleteById(id);
     }
